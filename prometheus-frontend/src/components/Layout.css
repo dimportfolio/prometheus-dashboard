@@ -1,0 +1,51 @@
+/* Layout.css */
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    /* light gray */
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+.layout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111827;
+    /* dark navy */
+    color: white;
+    padding: 1rem 2rem;
+}
+
+.layout-header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.layout-header nav a {
+    color: white;
+    margin-left: 1.5rem;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.layout-header nav a:hover {
+    text-decoration: underline;
+}
+
+.layout-main {
+    flex: 1;
+    padding: 2rem;
+}
+
+.layout-footer {
+    background-color: #1f2937;
+    /* slightly lighter navy */
+    color: #d1d5db;
+    /* light gray text */
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.875rem;
+}
