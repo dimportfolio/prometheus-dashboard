@@ -30,6 +30,7 @@ export default function Dashboard() {
 
     return (
         <div style={{ display: 'flex', gap: '20px' }}>
+            <h1>Dashboard</h1>
             <MetricPanel title="CPU Usage" data={cpuData} />
             <MetricPanel title="Memory Usage" data={memoryData} />
         </div>
