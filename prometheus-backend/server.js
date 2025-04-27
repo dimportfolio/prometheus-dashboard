@@ -7,26 +7,49 @@ const PORT = 5000;
 // Enable CORS for all requests
 app.use(cors());
 
-// Fake CPU metric endpoint
 app.get('/api/cpu', (req, res) => {
-  const cpuUsage = (Math.random() * 100).toFixed(2); // random 0-100%
-  res.json({
-    usage: cpuUsage,
-    timestamp: Date.now()
-  });
-});
-
-// Fake Memory metric endpoint
-app.get('/api/memory', (req, res) => {
-  const totalMemory = 16384; // 16 GB
-  const usedMemory = Math.floor(Math.random() * totalMemory);
+    const cpuUsage = (Math.random() * 100).toFixed(2);
+    const timestamp = Math.floor(Date.now() / 1000); // UNIX seconds
   
-  res.json({
-    used: usedMemory,
-    total: totalMemory,
-    timestamp: Date.now()
+    res.json({
+      status: 'success',
+      data: {
+        resultType: 'vector',
+        result: [
+          {
+            metric: {
+              instance: 'localhost:5000',
+              job: 'cpu-monitor'
+            },
+            value: [timestamp, cpuUsage]
+          }
+        ]
+      }
+    });
   });
-});
+  
+  app.get('/api/memory', (req, res) => {
+    const totalMemory = 16384; // 16 GB
+    const usedMemory = Math.floor(Math.random() * totalMemory);
+    const timestamp = Math.floor(Date.now() / 1000); // UNIX seconds
+  
+    res.json({
+      status: 'success',
+      data: {
+        resultType: 'vector',
+        result: [
+          {
+            metric: {
+              instance: 'localhost:5000',
+              job: 'memory-monitor'
+            },
+            value: [timestamp, usedMemory]
+          }
+        ]
+      }
+    });
+  });
+  
 
 // Start server
 app.listen(PORT, () => {
