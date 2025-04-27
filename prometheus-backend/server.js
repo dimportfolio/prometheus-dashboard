@@ -8,50 +8,54 @@ const PORT = 5000;
 app.use(cors());
 
 app.get('/api/cpu', (req, res) => {
-    const cpuUsage = (Math.random() * 100).toFixed(2);
-    const timestamp = Math.floor(Date.now() / 1000); // UNIX seconds
-  
+    const timestamp = Math.floor(Date.now() / 1000);
+
+    const instances = ['server-1', 'server-2']; // two servers
+
+    const results = instances.map(instance => ({
+        metric: {
+            instance: `${instance}:5000`,
+            job: 'cpu-monitor'
+        },
+        value: [timestamp, (Math.random() * 100).toFixed(2)]
+    }));
+
     res.json({
-      status: 'success',
-      data: {
-        resultType: 'vector',
-        result: [
-          {
-            metric: {
-              instance: 'localhost:5000',
-              job: 'cpu-monitor'
-            },
-            value: [timestamp, cpuUsage]
-          }
-        ]
-      }
+        status: 'success',
+        data: {
+            resultType: 'vector',
+            result: results
+        }
     });
-  });
-  
-  app.get('/api/memory', (req, res) => {
+});
+
+app.get('/api/memory', (req, res) => {
+    const timestamp = Math.floor(Date.now() / 1000);
+
+    const instances = ['server-1', 'server-2'];
+
     const totalMemory = 16384; // 16 GB
-    const usedMemory = Math.floor(Math.random() * totalMemory);
-    const timestamp = Math.floor(Date.now() / 1000); // UNIX seconds
-  
+
+    const results = instances.map(instance => ({
+        metric: {
+            instance: `${instance}:5000`,
+            job: 'memory-monitor'
+        },
+        value: [timestamp, Math.floor(Math.random() * totalMemory)]
+    }));
+
     res.json({
-      status: 'success',
-      data: {
-        resultType: 'vector',
-        result: [
-          {
-            metric: {
-              instance: 'localhost:5000',
-              job: 'memory-monitor'
-            },
-            value: [timestamp, usedMemory]
-          }
-        ]
-      }
+        status: 'success',
+        data: {
+            resultType: 'vector',
+            result: results
+        }
     });
-  });
-  
+});
+
+
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Prometheus Backend running at http://localhost:${PORT}`);
+    console.log(`Prometheus Backend running at http://localhost:${PORT}`);
 });
