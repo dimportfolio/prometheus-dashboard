@@ -18,6 +18,7 @@ export default function Dashboard() {
                 ])
                 setCpuData(cpu);
                 setMemoryData(memory);
+                setLoading(false)
             } catch (err) {
                 setError(err);
             }
