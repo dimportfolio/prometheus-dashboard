@@ -3,13 +3,27 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:5000/api';
 
 export const fetchCPUUsage = async () => {
-  const res = await axios.get(`${BASE_URL}/cpu`);
-  const [timestamp, usage] = res.data.data.result[0].value;
-  return { timestamp, usage };
+    const res = await axios.get(`${BASE_URL}/cpu`);
+    const results = res.data.data.result.map(entry => {
+        const [timestamp, usage] = entry.value;
+        return {
+            instance: entry.metric.instance,
+            timestamp,
+            usage
+        };
+    });
+    return results;
 };
 
 export const fetchMemoryUsage = async () => {
-  const res = await axios.get(`${BASE_URL}/memory`);
-  const [timestamp, used] = res.data.data.result[0].value;
-  return { timestamp, used };
+    const res = await axios.get(`${BASE_URL}/memory`);
+    const results = res.data.data.result.map(entry => {
+        const [timestamp, used] = entry.value;
+        return {
+            instance: entry.metric.instance,
+            timestamp,
+            used
+        };
+    });
+    return results;
 };
