@@ -5,29 +5,32 @@ import MetricPanel from './MetricPanel';
 export default function Dashboard() {
     const [cpuData, setCpuData] = useState(null);
     const [memoryData, setMemoryData] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        async function fetchData() {
-            setLoading(true);
-            try {
-                const [cpu, memory] = await Promise.all([
-                    fetchCPUUsage(),
-                    fetchMemoryUsage()
-                ])
-                setCpuData(cpu);
-                setMemoryData(memory);
-                setLoading(false)
-            } catch (err) {
-                setError(err);
-            }
+    // Fetch and update metrics
+    const fetchData = async () => {
+        try {
+            const [cpu, memory] = await Promise.all([
+                fetchCPUUsage(),
+                fetchMemoryUsage()
+            ]);
+            setCpuData(cpu);
+            setMemoryData(memory);
+        } catch (err) {
+            setError(err);
         }
-        fetchData();
+    };
+
+    useEffect(() => {
+        fetchData(); // Fetch once immediately on mount
+
+        const interval = setInterval(fetchData, 10000); // Refresh every 10 seconds
+
+        return () => clearInterval(interval); // Clean up on unmount
     }, []);
 
-    if (loading) return <div>Loading Dashboard...</div>;
     if (error) return <div>Error loading dashboard: {error.message}</div>;
+    if (!cpuData || !memoryData) return <div>Loading Dashboard...</div>;
 
     return (
         <div style={{ display: 'flex', gap: '20px' }}>
@@ -35,5 +38,4 @@ export default function Dashboard() {
             <MetricPanel title="Memory Usage" data={memoryData} />
         </div>
     );
-
 }
