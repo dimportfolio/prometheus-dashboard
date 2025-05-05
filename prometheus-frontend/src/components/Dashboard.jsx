@@ -7,6 +7,22 @@ export default function Dashboard() {
     const [memoryData, setMemoryData] = useState(null);
     const [error, setError] = useState(null);
 
+    const [cpuHistory, setCpuHistory] = useState({});
+    const [memoryHistory, setMemoryHistory] = useState({});
+
+    const pushMetric = (history, newData) => {
+        const updated = { ...history };
+
+        newData.forEach(({ instance, timestamp, usage, used }) => {
+            if (!updated[instance]) updated[instance] = [];
+
+            updated[instance] = [...updated[instance], { timestamp, usage: parseFloat(usage), used: parseFloat(used) }]
+                .slice(-10); // keep only last 10
+        });
+
+        return updated;
+    };
+
     // Fetch and update metrics
     const fetchData = async () => {
         try {
@@ -16,6 +32,8 @@ export default function Dashboard() {
             ]);
             setCpuData(cpu);
             setMemoryData(memory);
+            setCpuHistory(prev => pushMetric(prev, cpu));
+            setMemoryHistory(prev => pushMetric(prev, memory));
         } catch (err) {
             setError(err);
         }
@@ -36,6 +54,8 @@ export default function Dashboard() {
         <div style={{ display: 'flex', gap: '20px' }}>
             <MetricPanel title="CPU Usage" data={cpuData} />
             <MetricPanel title="Memory Usage" data={memoryData} />
+            <MetricPanel title="CPU History" data={cpuHistory} type="chart" />
+            <MetricPanel title="Memory History" data={memoryHistory} type="chart" />
         </div>
     );
 }
