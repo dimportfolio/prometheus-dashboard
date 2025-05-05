@@ -20,43 +20,62 @@ _This checklist tracks core React concepts covered in this project before introd
 - [x] Cleanup functions in `useEffect`
 - [x] Service layer abstraction (`prometheusService.js`)
 - [x] Using `Promise.all` for parallel requests
+- [x] Simulating Prometheus API shape (e.g., vector results, labels)
 
 ---
 
 ## ✅ Custom Hook Design
 
 - [x] Create `usePolling` or `useInterval` hook
-- [ ] Add support for cleanup, pause/resume
+- [ ] Add support for cleanup, pause/resume toggle
 - [ ] Reuse custom hook in multiple components
+- [ ] Add custom retry or backoff logic inside polling hook (optional)
 
 ---
 
 ## ✅ State & Side Effects Management
 
-- [x] Centralized `fetchData()` to avoid duplicate logic
+- [x] Centralized `fetchData()` logic with async/await
 - [x] Manage loading, error, and success states manually
-- [x] Use `setInterval` for polling updates
-- [x] Parse external API response formats (e.g. Prometheus)
+- [x] Use `setInterval` or `useInterval` for polling updates
+- [x] Parse external Prometheus-style API formats
+- [x] Store historical metric values in time-series buffers
+- [ ] Buffer size customization (configurable history length)
+- [ ] Local caching or temporary storage fallback
 
 ---
 
 ## ✅ UI Design & Component Patterns
 
 - [x] Create reusable `MetricPanel` component
-- [x] Pass props like `title`, `data`
-- [x] Map over array of metrics (multiple instances)
+- [x] Display multiple server instances
+- [x] Display charts using Recharts
+- [x] Layout with Flexbox/Grid
+- [x] Navigation via React Router + Layout
 - [ ] Add conditional UI rendering (loading/error/empty states)
-- [ ] Improve layout responsiveness and styling
+- [ ] Improve layout responsiveness and styling (cards, spacing, mobile)
+- [ ] Add UX elements: timestamps, chart tooltips, legends
+
+---
+
+## ✅ Dev Tooling & Workflow
+
+- [x] Local dev server (Vite)
+- [x] Backend with Nodemon auto-reload
+- [x] Dev proxy setup (Vite → Express backend)
+- [ ] Add `.env` config for backend URL
+- [ ] Add ESLint or Prettier for formatting
+- [ ] Basic component or service unit tests
 
 ---
 
 ## ✅ Next Steps (Before React Query)
 
-- [ ] Add retry logic for failed requests
-- [ ] Add exponential backoff logic (optional)
-- [ ] Debounce or throttle rapid API calls (if needed)
-- [ ] Cache previous data in memory (basic form)
+- [ ] Retry logic for failed API calls
+- [ ] Exponential backoff on retry (optional)
+- [ ] Debounce or throttle rapid API triggers (if interactive filtering added)
+- [ ] Cache previous data in memory (basic or global state)
 
 ---
 
-✅ Once this checklist is 90–100% complete, you’re ready to confidently add **React Query** in a new branch or project!
+✅ Once this checklist is 90–100% complete, you’re ready to confidently add **React Query** or similar tools to handle polling, caching, retries, and revalidation more efficiently.
