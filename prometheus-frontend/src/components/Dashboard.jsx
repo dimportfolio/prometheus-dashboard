@@ -10,6 +10,8 @@ export default function Dashboard() {
     const [cpuHistory, setCpuHistory] = useState({});
     const [memoryHistory, setMemoryHistory] = useState({});
 
+    console.log('would this save a meaningful change?')
+
     const pushMetric = (history, newData) => {
         const updated = { ...history };
 
